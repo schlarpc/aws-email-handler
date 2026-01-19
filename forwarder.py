@@ -85,8 +85,15 @@ def handler(event, context):
         "To",
         os.environ["DESTINATION_EMAIL_ADDRESS"],
     )
-    for bad_header in ("Return-Path", "CC", "BCC"):
-        del message[bad_header]
+    for bad_header in (
+        "Return-Path",
+        "CC",
+        "BCC",
+        "DKIM-Signature",
+        "X-SES-DKIM-SIGNATURE",
+    ):
+        while bad_header in message:
+            del message[bad_header]
 
     response = ses.send_raw_email(
         RawMessage={"Data": message.as_bytes(policy=email.policy.SMTP)},
