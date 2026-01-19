@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#   "awacs",
+#   "troposphere",
+# ]
+# ///
 """
 Manual steps:
 * Set receipt rule set as "Active"
@@ -194,7 +201,7 @@ def create_template():
         Function(
             "Function",
             Role=function_role.get_att("Arn"),
-            Runtime="python3.9",
+            Runtime="python3.14",
             Code=Code(ZipFile=inspect.getsource(handler)),
             Handler="index.handler",
             MemorySize=256,
