@@ -205,6 +205,9 @@ def create_template():
             Code=Code(ZipFile=inspect.getsource(handler)),
             Handler="index.handler",
             MemorySize=256,
+            # The 3s default leaves no headroom: warm runs take ~2.2s, so cold
+            # starts time out and SES's async invoke retries them (delay, dupes).
+            Timeout=30,
             Environment=Environment(
                 Variables={
                     "EVENT_BUS_NAME": event_bus.ref(),
